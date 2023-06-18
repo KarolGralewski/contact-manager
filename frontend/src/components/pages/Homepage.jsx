@@ -25,19 +25,28 @@ export const Homepage = () => {
   }, []);
 
   if (isLoading || data.length === 0) {
-    return <PageContent>No data yet</PageContent>;
+    return (
+      <PageContent>
+        <label htmlFor="my-modal-5" className=" btn-outline btn mb-5 rounded-lg border-0  border-blue-500 bg-blue-500  text-sm font-bold  text-slate-300   hover:bg-blue-600 hover:text-slate-100">
+          Add contact
+        </label>
+
+        <Modal>
+          <AddContact />
+        </Modal>
+      </PageContent>
+    );
   }
 
   return (
     <PageContent>
-      <label htmlFor="my-modal-5" className=" btn-outline btn mb-5 rounded-lg border-0  border-blue-500 bg-blue-500  text-sm font-bold  text-slate-300   hover:bg-blue-600 hover:text-slate-100">
-        Add contact
-      </label>
-
       <Modal>
         <AddContact />
       </Modal>
-      <>{data.length !== 0 ? data.map((contact, index) => <ContactListItem title={contact.title} key={contact.id} id={contact.id} content={contact.content} type={contact.contactType} createdAt={contact.createdAt} updatedAt={contact.createdAt} />) : <p>No data yet</p>}</>
+      <>{data.length !== 0 ? data.map((contact, index) => <ContactListItem title={contact.title} key={contact.id} id={contact.id} content={contact.content} type={contact.contactType} createdAt={contact.createdAt} updatedAt={contact.updatedAt} />) : <p>No data yet</p>}</>
+      <label htmlFor="my-modal-5" className=" btn rounded-full border-0 border-blue-500 bg-blue-500  px-4 text-sm font-bold  text-slate-300   hover:bg-blue-600 hover:text-slate-100">
+        Add new
+      </label>
     </PageContent>
   );
 };

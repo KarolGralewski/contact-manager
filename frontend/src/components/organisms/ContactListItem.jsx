@@ -19,11 +19,14 @@ export const ContactListItem = ({ id, type, title, content, updatedAt, createdAt
     fetchData();
   };
 
+  const formattedCreate = format(new Date(createdAt), 'dd MMMM, HH:mm');
+  const formattedUpdate = format(new Date(updatedAt), 'dd MMMM, HH:mm');
+
   return (
     <div className="mb-4 flex w-full items-center">
       <Link to={`/contact/${id}`} className="w-full">
         <div className="flex w-full items-end  justify-between rounded-md bg-slate-800 px-6 py-4">
-          <div className="flex w-full items-end justify-start gap-10  ">
+          <div className="flex w-full items-end justify-start gap-5 ">
             <div>
               <div className="flex gap-3">
                 <span className="flex items-center rounded-md bg-blue-500 p-1 px-2 text-xs font-bold text-blue-50">{type === 'Number' ? 'Number' : type === 'Email' ? 'Email ' : 'Fax'}</span>
@@ -31,10 +34,14 @@ export const ContactListItem = ({ id, type, title, content, updatedAt, createdAt
               </div>
               <p className="mt-2 text-xl font-semibold text-slate-300">{content}</p>
             </div>
-            <p className="mb-1 text-lg font-bold text-slate-600">.</p>
-            <p className="text-lg font-semibold text-slate-300">Created {format(new Date(createdAt), 'dd MMMM')}</p>
-            <p className="mb-1  text-lg font-bold text-slate-600">.</p>
-            <p className="text-lg font-semibold text-slate-300">Updated {format(new Date(updatedAt), 'dd MMMM')}</p>
+            <p className="mb-1 text-lg font-bold text-slate-700">.</p>
+            <p className=" font text-lg text-slate-700">Created {formattedCreate}</p>
+
+            {createdAt === updatedAt ? null : (
+              <>
+                <p className="mb-1 text-lg font-bold text-slate-700">.</p> <p className=" font text-lg text-slate-700">Updated {formattedUpdate}</p>
+              </>
+            )}
           </div>
         </div>
       </Link>

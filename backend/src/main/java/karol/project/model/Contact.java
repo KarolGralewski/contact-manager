@@ -10,6 +10,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "contacts")
@@ -29,6 +30,7 @@ public class Contact {
 
     @NotBlank
     private String content;
+
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
