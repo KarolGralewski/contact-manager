@@ -6,9 +6,10 @@ import axios from 'axios';
 export const Contact = () => {
   const routeParams = useParams();
   const [data, setData] = useState();
-  const [updatedData, setUpdatedData] = useState();
+  const [updatedData, setUpdatedData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [invalidData, setInvalidData] = useState(false);
+  const [buttonDisabled, setButtonDisabled] = useState(true);
 
   const handleChange = ({ currentTarget: input }) => {
     setUpdatedData({ ...updatedData, [input.name]: input.value });
@@ -29,6 +30,16 @@ export const Contact = () => {
 
     fetchData();
   }, [routeParams.id]);
+
+  useEffect(() => {
+    if (updatedData.contactType === 'Number' && !/^\d+$/.test(updatedData.content)) {
+      setInvalidData(true);
+    } else {
+      setInvalidData(false);
+    }
+
+    setButtonDisabled(!updatedData.title || !updatedData.contactType || !updatedData.content || invalidData);
+  }, [updatedData, invalidData]);
 
   if (isLoading || !data) {
     return <p>No data</p>;
@@ -90,7 +101,7 @@ export const Contact = () => {
             <input type="text" onChange={handleChange} name="content" value={updatedData.content || ''} className="input-bordered input w-full  max-w-xs border-0 bg-slate-700 text-lg text-slate-200 placeholder:font-normal placeholder:text-slate-400" />
           )}
 
-          <button type="submit" className="btn-outline btn mb-4 mt-5 w-full rounded-lg border-2 border-blue-500 text-slate-300 hover:border-blue-500 hover:bg-blue-600 hover:text-slate-50">
+          <button type="submit" disabled={buttonDisabled} className="btn-outline btn mb-4 mt-5 w-full rounded-lg border-2 border-blue-500 text-slate-300 hover:border-blue-500 hover:bg-blue-600 hover:text-slate-50">
             Edit Contact
           </button>
         </form>
