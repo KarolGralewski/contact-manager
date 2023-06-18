@@ -10,6 +10,7 @@ export const Contact = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [invalidData, setInvalidData] = useState(false);
   const [buttonDisabled, setButtonDisabled] = useState(true);
+  const [alertVisibility, setAlertVisibility] = useState('hidden');
 
   const handleChange = ({ currentTarget: input }) => {
     setUpdatedData({ ...updatedData, [input.name]: input.value });
@@ -31,6 +32,10 @@ export const Contact = () => {
     fetchData();
   }, [routeParams.id]);
 
+  const handleCloseAlert = () => {
+    setAlertVisibility('hidden');
+  };
+
   useEffect(() => {
     if (updatedData.contactType === 'Number' && !/^\d+$/.test(updatedData.content)) {
       setInvalidData(true);
@@ -49,7 +54,7 @@ export const Contact = () => {
     e.preventDefault();
     try {
       const response = await axios.put(`http://localhost:8080/api/contacts/${routeParams.id}`, updatedData);
-
+      setAlertVisibility('block');
       setUpdatedData(response.data);
       setData(response.data);
     } catch (error) {
@@ -105,6 +110,19 @@ export const Contact = () => {
             Edit Contact
           </button>
         </form>
+      </div>
+      <div className={`alert alert-success ${alertVisibility}  fixed top-8 mb-4  flex w-full max-w-2xl justify-between  rounded-lg border-2 border-blue-600 bg-blue-600 shadow-2xl`}>
+        <div className="flex gap-5">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 shrink-0  stroke-blue-50" fill="none" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <p className="text-base font-semibold text-blue-50">Profile updated succesfully</p>
+        </div>
+        <div className="flex cursor-pointer items-center justify-center  rounded-full bg-blue-500 px-3 py-1 text-blue-50 hover:bg-blue-400">
+          <p className="text-sm font-semibold" onClick={handleCloseAlert}>
+            Close
+          </p>
+        </div>
       </div>
     </PageContent>
   );
