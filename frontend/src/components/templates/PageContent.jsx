@@ -3,9 +3,9 @@ import { NavigationBar } from '../molecules/NavigationBar';
 
 export const PageContent = ({ children }) => {
   return (
-    <div className=" h-screen w-full bg-slate-900">
+    <div className="  h-auto w-full  items-end bg-slate-900">
       <NavigationBar />
-      <div className="mt-6 px-6">{children}</div>
+      <div className=" flex  h-screen flex-col items-end px-6 py-5 text-5xl text-slate-800">{children}</div>
     </div>
   );
 };
