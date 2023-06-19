@@ -11,7 +11,8 @@ export const Homepage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [sortType, setSortType] = useState('');
-  const [requestCount, setRequestCount] = useState(0); // State for request count
+  const [requestCount, setRequestCount] = useState(0);
+  const [requestByMethodCount, setRequestByMethodCount] = useState();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,11 +28,19 @@ export const Homepage = () => {
     fetchData();
   }, []);
 
+  const endpoints = ['http://localhost:8080/api/stats', 'http://localhost:8080/api/statsByMethod'];
+
   useEffect(() => {
     const fetchRequestCount = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/api/stats');
-        setRequestCount(response.data);
+        const dataPromises = endpoints.map(async (endpoint) => {
+          const response = await axios.get(endpoint);
+          return response.data;
+        });
+
+        const responseData = await Promise.all(dataPromises);
+        setRequestCount(responseData[0]);
+        setRequestByMethodCount(responseData[1]);
       } catch (error) {
         console.log(error);
       }
@@ -64,6 +73,8 @@ export const Homepage = () => {
       console.log(error);
     }
   };
+
+  console.log(requestByMethodCount);
 
   const handleSort = async (e) => {
     const selectedSortType = e.target.value.toLowerCase();
@@ -103,7 +114,7 @@ export const Homepage = () => {
         <AddContact />
       </Modal>
 
-      <div className="mb-3 flex w-full justify-between">
+      <div className=" mb-5 flex w-full items-center justify-between">
         <div className="flex items-center gap-5">
           <label htmlFor="my-modal-5" className="btn rounded-lg border-0 border-blue-500 bg-blue-500 px-4 text-sm font-bold text-slate-300 hover:bg-blue-600 hover:text-slate-100">
             Add Contact
@@ -117,10 +128,19 @@ export const Homepage = () => {
             <option value="type">Type</option>
             <option value="unsorted">Unsorted</option>
           </select>
-          <div className="flex h-12 items-center justify-center rounded-md border-2 border-slate-800  p-4 text-base text-slate-500">Total requests sent: {requestCount}</div>
+
+          <div className="flex h-12 items-center justify-center rounded-md border-2 border-slate-800/50 bg-slate-800  p-4 text-base text-slate-200">
+            <p className="mr-4">Requests Counter: </p>
+            {Object.entries(requestByMethodCount).map(([method, count]) => (
+              <div key={method} className="mr-3">
+                {method}:{count},
+              </div>
+            ))}
+            Total: {requestCount}
+          </div>
         </div>
 
-        <div className="mb-5 flex gap-5">
+        <div className=" flex gap-5">
           <input type="text" name="content" value={searchQuery} onChange={handleChange} onKeyDown={handleEnterDown} placeholder="Search by Title" className="input-bordered input h-12 w-full border-0 bg-slate-800 text-lg text-slate-200 placeholder:font-normal placeholder:text-slate-600" />
           <button onClick={handleSearch} className="btn bg-slate-800 text-slate-400 hover:border-blue-600 hover:bg-blue-600 hover:text-blue-50">
             Search

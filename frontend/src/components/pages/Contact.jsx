@@ -65,7 +65,7 @@ export const Contact = () => {
   return (
     <PageContent>
       <div>
-        <form className="flex flex-col gap-4 rounded-lg bg-slate-800 p-10" onSubmit={handleFormSubmit}>
+        <form className="flex flex-col gap-4 rounded-lg bg-slate-800 p-8" onSubmit={handleFormSubmit}>
           <h1 className="text-xl font-semibold text-slate-300">Edit {data.title} Contact</h1>
 
           <label className="label -mb-4">
