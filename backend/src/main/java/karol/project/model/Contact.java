@@ -12,6 +12,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.sql.Timestamp;
 
+
 @Entity
 @Table(name = "contacts")
 @EntityListeners(AuditingEntityListener.class)
