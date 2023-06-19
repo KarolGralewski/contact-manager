@@ -5,7 +5,6 @@ import karol.project.exception.ResourceNotFoundException;
 import karol.project.model.Contact;
 import karol.project.repository.ContactRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,10 +18,12 @@ import java.util.Optional;
 public class ContactController {
 
     private final ContactRepository contactRepository;
+    private int totalRequests = 0;
 
     // Get all Contacts
     @GetMapping("/contacts")
     public List<Contact> getAllContacts(@RequestParam(name = "title") Optional<String> title ) {
+        totalRequests += 1;
         if (title.isPresent()){
             return contactRepository.findAllByTitleContainingIgnoreCase(title.get());
     }
@@ -31,6 +32,8 @@ public class ContactController {
 
     @GetMapping("/contacts/sorted/title")
     public List<Contact> getSortedContactsByName() {
+        totalRequests += 1;
+
         Comparator<Contact> reverseComparator = (first, second) -> second.getTitle().compareTo(first.getTitle());
         List<Contact> contacts = contactRepository.findAll();
         contacts.sort(reverseComparator.reversed());
@@ -39,6 +42,8 @@ public class ContactController {
 
     @GetMapping("/contacts/sorted/type")
     public List<Contact> getSortedContactsByType() {
+        totalRequests += 1;
+
         Comparator<Contact> reverseComparator = (first, second) -> second.getContactType().toString().compareTo(first.getContactType().toString());
         List<Contact> contacts = contactRepository.findAll();
         contacts.sort(reverseComparator.reversed());
@@ -49,22 +54,26 @@ public class ContactController {
     // Create new Contact
     @PostMapping("/contacts")
     public Contact createContact(@Valid @RequestBody Contact contact) {
+        totalRequests += 1;
         return contactRepository.save(contact);
     }
 
     // Get Contact by id
     @GetMapping("/contacts/{id}")
     public Contact getContactById(@PathVariable(value = "id") Long contactId) {
+        totalRequests += 1;
+
         return contactRepository.findById(contactId)
                 .orElseThrow(() -> new ResourceNotFoundException("Contact", "id", contactId));
     }
-
 
 
     // Update Contact by id
     @PutMapping("/contacts/{id}")
     public Contact updateContact(@PathVariable(value = "id") Long contactId,
             @Valid @RequestBody Contact contactDetails) {
+        totalRequests += 1;
+
         Contact contact = contactRepository.findById(contactId)
                 .orElseThrow(() -> new ResourceNotFoundException("Contact", "id", contactId));
 
@@ -80,11 +89,18 @@ public class ContactController {
     // Delete Contact by id
     @DeleteMapping("/contacts/{id}")
     public ResponseEntity<?> deleteContact(@PathVariable(value = "id") Long contactId) {
+        totalRequests += 1;
+
         Contact contact = contactRepository.findById(contactId)
                 .orElseThrow(() -> new ResourceNotFoundException("Contact", "id", contactId));
 
         contactRepository.delete(contact);
 
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/stats")
+    public int getStats() {
+        return totalRequests;
     }
 }

@@ -42,16 +42,14 @@ export const AddContact = () => {
 
   return (
     <div>
-      <form className="flex flex-col gap-5">
-        <h1 className="mb-3 text-xl font-semibold text-slate-300">Add Contact</h1>
+      <form className="flex flex-col gap-3">
+        <h1 className=" text-xl font-semibold text-slate-300">Add Contact</h1>
 
-        <div className="">
-          <label className="label -mb-3">
-            <span className="label-text text-base text-slate-300">Type the title of contact</span>
-          </label>
+        <label className="label -mb-3">
+          <span className="label-text text-base text-slate-300">Type the title of contact</span>
+        </label>
 
-          <input onChange={handleChange} type="text" required name="title" placeholder="Type here" className="input-bordered input w-full  max-w-xs border-0 bg-slate-800 text-lg text-slate-200 placeholder:font-normal placeholder:text-slate-700" />
-        </div>
+        <input onChange={handleChange} type="text" required name="title" placeholder="Type here" className="input-bordered input w-full  max-w-xs border-0 bg-slate-800 text-lg text-slate-200 placeholder:font-normal placeholder:text-slate-700" />
 
         <label className="label -mb-3">
           <span className="label-text text-base text-slate-300">Pick the category</span>

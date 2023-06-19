@@ -11,6 +11,7 @@ export const Homepage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [sortType, setSortType] = useState('');
+  const [requestCount, setRequestCount] = useState(0); // State for request count
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,6 +26,19 @@ export const Homepage = () => {
 
     fetchData();
   }, []);
+
+  useEffect(() => {
+    const fetchRequestCount = async () => {
+      try {
+        const response = await axios.get('http://localhost:8080/api/stats');
+        setRequestCount(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchRequestCount();
+  }, [data]);
 
   const handleChange = (e) => {
     setSearchQuery(e.target.value);
@@ -89,13 +103,13 @@ export const Homepage = () => {
         <AddContact />
       </Modal>
 
-      <div className="flex w-full justify-between">
-        <div>
+      <div className="mb-3 flex w-full justify-between">
+        <div className="flex items-center gap-5">
           <label htmlFor="my-modal-5" className="btn rounded-lg border-0 border-blue-500 bg-blue-500 px-4 text-sm font-bold text-slate-300 hover:bg-blue-600 hover:text-slate-100">
-            Add new
+            Add Contact
           </label>
 
-          <select className="input-bordered input ml-5 max-w-xs  border-0 bg-slate-800 px-5 text-lg text-slate-200 placeholder:font-normal placeholder:text-slate-700" onChange={handleSort} value={sortType}>
+          <select className="input-bordered input max-w-xs  border-0 bg-slate-800 px-5 text-lg text-slate-200 placeholder:font-normal placeholder:text-slate-700" onChange={handleSort} value={sortType}>
             <option disabled value="">
               Sort By
             </option>
@@ -103,6 +117,7 @@ export const Homepage = () => {
             <option value="type">Type</option>
             <option value="unsorted">Unsorted</option>
           </select>
+          <div className="flex h-12 items-center justify-center rounded-md border-2 border-slate-800  p-4 text-base text-slate-500">Total requests sent: {requestCount}</div>
         </div>
 
         <div className="mb-5 flex gap-5">

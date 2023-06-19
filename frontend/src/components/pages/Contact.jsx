@@ -65,18 +65,16 @@ export const Contact = () => {
   return (
     <PageContent>
       <div>
-        <form className="flex flex-col gap-5 rounded-lg bg-slate-800 p-10" onSubmit={handleFormSubmit}>
+        <form className="flex flex-col gap-4 rounded-lg bg-slate-800 p-10" onSubmit={handleFormSubmit}>
           <h1 className="text-xl font-semibold text-slate-300">Edit {data.title} Contact</h1>
 
-          <div className="">
-            <label className="label ">
-              <span className="label-text text-base text-slate-300">Type the title of contact</span>
-            </label>
+          <label className="label -mb-4">
+            <span className="label-text text-base text-slate-300">Type the title of contact</span>
+          </label>
 
-            <input type="text" onChange={handleChange} value={updatedData.title || ''} required name="title" className="input-bordered input w-full  max-w-xs border-0 bg-slate-700 text-lg text-slate-200 placeholder:font-normal placeholder:text-slate-400" />
-          </div>
+          <input type="text" onChange={handleChange} value={updatedData.title || ''} required name="title" className="input-bordered input w-full  max-w-xs border-0 bg-slate-700 text-lg text-slate-200 placeholder:font-normal placeholder:text-slate-400" />
 
-          <label className="label -mb-5">
+          <label className="label -mb-4">
             <span className="label-text text-base text-slate-300">Pick the category</span>
           </label>
           <select className="input-bordered input w-full max-w-xs border-0 bg-slate-700 text-lg text-slate-200 placeholder:font-normal placeholder:text-slate-700" onChange={handleChange} value={updatedData.contactType} name="contactType">
@@ -85,7 +83,7 @@ export const Contact = () => {
             <option value="Fax">Fax</option>
           </select>
 
-          <label className="label -mb-5">
+          <label className="label -mb-4">
             <span className="label-text text-base text-slate-300">Enter {updatedData.contactType && updatedData.contactType.toLowerCase()}</span>
           </label>
 
