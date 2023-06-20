@@ -25,7 +25,7 @@ export const ContactListItem = ({ id, type, title, content, updatedAt, createdAt
   return (
     <div className="mb-4 flex w-full items-center">
       <Link to={`/contact/${id}`} className="w-full">
-        <div className="flex w-full items-end  justify-between rounded-md bg-slate-800 px-6 py-4">
+        <div className="flex w-full items-end  justify-between rounded-md bg-slate-800 px-6 py-4 transition hover:bg-slate-700/60">
           <div className="flex w-full items-end justify-start gap-5 ">
             <div>
               <div className="flex gap-3">
