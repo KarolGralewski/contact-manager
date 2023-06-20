@@ -30,7 +30,7 @@ export const ContactListItem = ({ id, type, title, content, updatedAt, createdAt
             <div>
               <div className="flex gap-3">
                 <span className="flex items-center rounded-md bg-blue-500 p-1 px-2 text-xs font-bold text-blue-50">{type === 'Number' ? 'Number' : type === 'Email' ? 'Email ' : 'Fax'}</span>
-                <p className=" text-2xl font-semibold text-blue-500">{title}</p>
+                <p className=" text-2xl` font-semibold text-blue-500">{title}</p>
               </div>
               <p className="mt-2 text-xl font-semibold text-slate-300">{content}</p>
             </div>
